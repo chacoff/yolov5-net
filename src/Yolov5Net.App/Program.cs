@@ -10,9 +10,9 @@ namespace Yolov5Net.App
     {
         static void Main(string[] args)
         {
-            using var image = Image.FromFile("Assets/test.jpg");
+            using var image = Image.FromFile("C:/Coding/201_SeamsModel/images/detect/ZH026_2060_009850_TX574038.png");
 
-            using var scorer = new YoloScorer<YoloCocoP5Model>("Assets/Weights/yolov5n.onnx");
+            using var scorer = new YoloScorer<YoloSeams5s>("C:/Coding/201_SeamsModel/runs/train/exp2/weights/best.onnx");
 
             List<YoloPrediction> predictions = scorer.Predict(image);
 
@@ -27,9 +27,11 @@ namespace Yolov5Net.App
 
                 var (x, y) = (prediction.Rectangle.X - 3, prediction.Rectangle.Y - 23);
 
-                graphics.DrawString($"{prediction.Label.Name} ({score})",
-                    new Font("Consolas", 16, GraphicsUnit.Pixel), new SolidBrush(prediction.Label.Color),
-                    new PointF(x, y));
+                graphics.DrawString(
+                    $"{prediction.Label.Name} ({score})",
+                    new Font("Consolas", 26, GraphicsUnit.Pixel), new SolidBrush(prediction.Label.Color),
+                    new PointF(x, y)
+                    );
             }
 
             image.Save("Assets/result.jpg");
