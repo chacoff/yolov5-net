@@ -10,7 +10,7 @@ namespace Yolov5Net.App
     {
         static void Main(string[] args)
         {
-            using var image = Image.FromFile("C:/Coding/201_SeamsModel/images/detect/ZH026_2060_009850_TX574038.png");
+            using var image = Image.FromFile("C:/Coding/201_SeamsModel/images/detect/ZH026_2080_049610_TX000079.png");
 
             using var scorer = new YoloScorer<YoloSeams5s>("C:/Coding/201_SeamsModel/runs/train/exp2/weights/best.onnx");
 
@@ -21,6 +21,8 @@ namespace Yolov5Net.App
             foreach (var prediction in predictions) // iterate predictions to draw results
             {
                 double score = Math.Round(prediction.Score, 2);
+                string _class = prediction.Label.Name.ToString();
+                Console.WriteLine($"prediction: {_class} - {score}%");
 
                 graphics.DrawRectangles(new Pen(prediction.Label.Color, 1),
                     new[] { prediction.Rectangle });
@@ -34,7 +36,7 @@ namespace Yolov5Net.App
                     );
             }
 
-            image.Save("Assets/result.jpg");
+            image.Save("Assets/result1.jpg");
         }
     }
 }
