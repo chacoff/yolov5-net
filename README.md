@@ -1,7 +1,7 @@
 # Yolov5Net
 YOLOv5 object detection with ML.NET, ONNX
 
-![example](https://github.com/chacoff/yolov5-net/blob/master/img/result.jpg?raw=true)
+<image src='https://github.com/chacoff/yolov5-net/blob/master/img/result.jpg?raw=true' width='480'>
 
 ## Installation
 
