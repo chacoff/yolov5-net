@@ -32,7 +32,7 @@ namespace Yolov5Net.Scorer.Models
         public override List<YoloLabel> Labels { get; set; } = new List<YoloLabel>()
         {
             new YoloLabel { Id = 1, Name = "Seams", Color = Color.DeepPink},
-            new YoloLabel { Id = 2, Name = "Beam", Color = Color.Yellow}
+            new YoloLabel { Id = 2, Name = "Beam", Color = Color.Red}
         };
 
         public override bool UseDetect { get; set; } = true;

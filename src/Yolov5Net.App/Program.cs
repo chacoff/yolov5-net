@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.Drawing;
 using Yolov5Net.Scorer;
 using Yolov5Net.Scorer.Models;
+using System.Diagnostics;
 
 namespace Yolov5Net.App
 {
     class Program
     {
+        public static string onnx = "C:/Coding/201_SeamsModel/runs/train/exp2/weights/best.onnx";
+        public static string input_img = "C:/Coding/201_SeamsModel/images/detect/ZH026_2080_049610_TX000079.png";
+        public static string output_img = "Assets/result1.jpg";
         static void Main(string[] args)
         {
-            using var image = Image.FromFile("C:/Coding/201_SeamsModel/images/detect/ZH026_2080_049610_TX000079.png");
+            var timer = new Stopwatch();
+            
+            timer.Start();
+            using var image = Image.FromFile(input_img);
 
-            using var scorer = new YoloScorer<YoloSeams5s>("C:/Coding/201_SeamsModel/runs/train/exp2/weights/best.onnx");
+            using var scorer = new YoloScorer<YoloSeams5s>(onnx);
 
             List<YoloPrediction> predictions = scorer.Predict(image);
 
@@ -36,7 +43,9 @@ namespace Yolov5Net.App
                     );
             }
 
-            image.Save("Assets/result1.jpg");
+            image.Save(output_img);
+            timer.Stop();
+            Console.WriteLine("Time taken: {0}ms ", timer.ElapsedMilliseconds.ToString());
         }
     }
 }
