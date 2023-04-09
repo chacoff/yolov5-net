@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Yolov5Net.Scorer.Extensions;
 using Yolov5Net.Scorer.Models.Abstract;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
 
 namespace Yolov5Net.Scorer
 {
@@ -59,6 +61,7 @@ namespace Yolov5Net.Scorer
         /// </summary>
         private Bitmap ResizeImage(Image image)
         {
+            
             PixelFormat format = image.PixelFormat;
 
             var output = new Bitmap(_model.Width, _model.Height, format);
@@ -81,7 +84,67 @@ namespace Yolov5Net.Scorer
                 graphics.DrawImage(image, roi); // draw scaled
             }
 
+            output.Save("C:/Users/jaime/source/repos/yolov5-net/img/resized.jpg"); ;
             return output;
+            
+            /*
+            int fillWidth = 0, fillHeight = 0;
+            int fillWidth2 = 0, fillHeight2 = 0;
+
+            PixelFormat format = image.PixelFormat;
+            var output = new Bitmap(_model.Width, _model.Height, format);
+
+            if (image.Width < _model.Width && image.Height < _model.Height)
+            {
+                fillWidth = (_model.Width - image.Width) / 2;
+                fillWidth2 = _model.Width - image.Width - fillWidth;
+
+                fillHeight = (_model.Height - image.Height) / 2;
+                fillHeight2 = _model.Height - image.Height - fillHeight;
+                using (Mat source = BitmapConverter.ToMat((Bitmap)image))
+                using (Mat dest = new Mat(new OpenCvSharp.Size(_model.Width, _model.Height), source.Type()))
+                {
+                    Cv2.CopyMakeBorder(source, dest, fillHeight, fillHeight2, fillWidth, fillWidth2, BorderTypes.Constant, null);
+                    return dest.ToBitmap(image.PixelFormat);
+                }
+            }
+
+            bool horizontalFill = _model.Height > _model.Width;
+            int resizedWidth, resizedHeight;
+            // ┌┬┬┐
+            // ││││
+            // └┴┴┘
+            if (horizontalFill)
+            {
+                resizedWidth = image.Width * _model.Height / image.Height;
+                resizedHeight = _model.Height;
+                fillWidth = (_model.Width - resizedWidth) / 2;
+                fillWidth2 = _model.Width - resizedWidth - fillWidth;
+            }
+            // ┌─┐
+            // ├─┤
+            // ├─┤
+            // └─┘
+            else
+            {
+                resizedWidth = _model.Width;
+                resizedHeight = image.Height * _model.Width / image.Width;
+                fillHeight = (_model.Height - resizedHeight) / 2;
+                fillHeight2 = _model.Height - resizedHeight - fillHeight;
+            }
+            using (Mat resizedMat = new Mat())
+            using (Mat source = BitmapConverter.ToMat((Bitmap)image))
+            using (Mat dest = new Mat(new OpenCvSharp.Size(_model.Width, _model.Height), source.Type()))
+            {
+                Cv2.Resize(source, resizedMat, new OpenCvSharp.Size(resizedWidth, resizedHeight));
+                Cv2.CopyMakeBorder(resizedMat, dest, fillHeight, fillHeight2, fillWidth, fillWidth2, BorderTypes.Constant, null);
+
+                // output = dest.ToBitmap(image.PixelFormat);
+                // output.Save("C:/Users/jaime/source/repos/yolov5-net/img/resized.jpg");
+                return dest.ToBitmap(image.PixelFormat);
+            }
+            */
+
         }
 
         /// <summary>

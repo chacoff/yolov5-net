@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using Yolov5Net.Scorer.Models.Abstract;
 
 namespace Yolov5Net.Scorer.Models
@@ -30,7 +31,7 @@ namespace Yolov5Net.Scorer.Models
 
         public override List<YoloLabel> Labels { get; set; } = new List<YoloLabel>()
         {
-            new YoloLabel { Id = 1, Name = "person" },
+            new YoloLabel { Id = 1, Name = "person", Color = Color.DeepPink },
             new YoloLabel { Id = 2, Name = "bicycle" },
             new YoloLabel { Id = 3, Name = "car" },
             new YoloLabel { Id = 4, Name = "motorcycle" },
